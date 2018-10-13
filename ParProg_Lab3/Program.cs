@@ -13,8 +13,8 @@ namespace ParProg_Lab3
         {
             Quest(2);
             Console.WriteLine("Я посчиталь");
-            Console.ReadKey();
-            Quest(2);
+            //Console.ReadKey();
+            //Quest(2);
         }
 
 
