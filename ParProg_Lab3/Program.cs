@@ -18,10 +18,7 @@ namespace ParProg_Lab3
                 sw.Reset();
                 Console.WriteLine("Жду кнопку");
                 var check = Console.ReadKey();
-                if (check.Key == ConsoleKey.Enter)
-                {
-                    break;
-                }
+                if (check.Key == ConsoleKey.Enter) { break; }
                 sw.Start();
                 Quest(8);
                 sw.Stop();
@@ -50,8 +47,8 @@ namespace ParProg_Lab3
                 var writeThread = new Thread(() => WriteTask(writeQueue, inputStack, resetEvent, outputFile));
                 writeThread.Start();
 
-                tasks.Add(calcThread); 
-                tasks.Add(writeThread); 
+                tasks.Add(calcThread);
+                tasks.Add(writeThread);
             }
 
             foreach (var task in tasks) task.Join();
