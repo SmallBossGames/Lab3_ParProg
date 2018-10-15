@@ -16,12 +16,11 @@ namespace ParProg_Lab3
             //Console.ReadKey();
             //Quest(2);
         }
-
-
+        
         static void Quest(int taskCount)
         {
             var tasks = new List<Thread>(taskCount);
-            var inputStack = SeedData(1000000);
+            var inputStack = SeedData(3, 1000000);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -143,5 +142,13 @@ namespace ParProg_Lab3
             return enter;
         }
 
+        static Stack<int> SeedData(int from, int n)
+        {
+            Stack<int> enter = new Stack<int>();
+
+            for (var i = 3; i < n; i++) enter.Push(i);
+
+            return enter;
+        }
     }
 }
