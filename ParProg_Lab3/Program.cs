@@ -23,8 +23,9 @@ namespace ParProg_Lab3
                 to = Convert.ToInt32(Console.ReadLine());
                 sw.Reset();
                 Console.WriteLine("Жду кнопку");
-                var check = Console.ReadKey();
-                if (check.Key == ConsoleKey.Enter) { break; }
+                Console.ReadLine();
+                //var check = Console.ReadKey();
+                //if (check.Key == ConsoleKey.Enter) { break; }
                 sw.Start();
                 Quest(threadCount, to);
                 sw.Stop();
@@ -34,6 +35,7 @@ namespace ParProg_Lab3
                 QuestAsync(threadCount, to);
                 sw.Stop();
                 Console.WriteLine($"Я посчиталь c асинхронкой за {sw.ElapsedMilliseconds}");
+                Console.ReadLine();
             }
         }
 
