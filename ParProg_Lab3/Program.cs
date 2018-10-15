@@ -11,17 +11,18 @@ namespace ParProg_Lab3
     {
         static void Main(string[] args)
         {
-            Quest(2);
+            Quest(6);
             Console.WriteLine("Я посчиталь");
             Console.ReadLine();
-            //Console.ReadKey();
-            //Quest(2);
+            QuestAsync(6);
+            Console.WriteLine("Я посчиталь асинхронно");
+            Console.ReadLine();
         }
 
         static void Quest(int taskCount)
         {
             var tasks = new List<Thread>(taskCount);
-            var inputStack = SeedData(3, 1000000);
+            var inputStack = SeedData(10000000);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -43,7 +44,7 @@ namespace ParProg_Lab3
         static void QuestAsync(int taskCount)
         {
             var tasks = new List<Task>(taskCount);
-            var inputStack = SeedData(1000000);
+            var inputStack = SeedData(3, 10000000);
 
             for (int i = 0; i < taskCount; i++)
             {
