@@ -38,7 +38,7 @@ namespace ParProg_Lab3
         static void Quest(int taskCount)
         {
             var tasks = new List<Thread>(taskCount);
-            var inputStack = SeedData(10000000);
+            var inputStack = SeedData(3, 1000000);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -61,7 +61,7 @@ namespace ParProg_Lab3
         static void QuestAsync(int taskCount)
         {
             var tasks = new List<Task>(taskCount);
-            var inputStack = SeedData(10000000);
+            var inputStack = SeedData(3, 1000000);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -162,6 +162,18 @@ namespace ParProg_Lab3
             {
                 enter.Push(rand.Next());
             }
+            return enter;
+        }
+
+        static Stack<int> SeedData(int from, int to)
+        {
+            Stack<int> enter = new Stack<int>();
+
+            for (var i = from; i < to; i++)
+            {
+                enter.Push(i);
+            }
+
             return enter;
         }
 
