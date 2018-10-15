@@ -17,9 +17,9 @@ namespace ParProg_Lab3
             {
                 var threadCount = 2;
                 var to = 10;
-                Console.WriteLine("Введите количество потоков");
+                Console.WriteLine("Введите количество потоков:");
                 threadCount = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Введите размер последовательности");
+                Console.WriteLine("Введите размер последовательности:");
                 to = Convert.ToInt32(Console.ReadLine());
 
                 Console.WriteLine("Вычисляю...");
