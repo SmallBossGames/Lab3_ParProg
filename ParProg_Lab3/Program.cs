@@ -63,7 +63,7 @@ namespace ParProg_Lab3
         static void QuestAsync(int taskCount, int to)
         {
             var tasks = new List<Task>(taskCount);
-            var inputStack = SeedData(3, 1000000);
+            var inputStack = SeedData(3, to);
 
             for (int i = 0; i < taskCount; i++)
             {
