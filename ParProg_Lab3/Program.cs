@@ -13,10 +13,11 @@ namespace ParProg_Lab3
         {
             Quest(2);
             Console.WriteLine("Я посчиталь");
+            Console.ReadLine();
             //Console.ReadKey();
             //Quest(2);
         }
-        
+
         static void Quest(int taskCount)
         {
             var tasks = new List<Thread>(taskCount);
@@ -36,7 +37,7 @@ namespace ParProg_Lab3
                 tasks.Add(writeThread); writeThread.Start();
             }
 
-            foreach (var task in tasks) task.Join();  
+            foreach (var task in tasks) task.Join();
         }
 
         static void QuestAsync(int taskCount)
@@ -85,8 +86,8 @@ namespace ParProg_Lab3
         }
 
         static void WriteTask(
-            Queue<int> writeQueue, 
-            Stack<int> inputStack, 
+            Queue<int> writeQueue,
+            Stack<int> inputStack,
             ManualResetEventSlim resetEvent,
             StreamWriter outputFile)
         {
@@ -115,12 +116,12 @@ namespace ParProg_Lab3
                 var value = writeQueue.Dequeue();
                 Monitor.Exit(writeQueue);
 
-                if(Prime(value))
+                if (Prime(value))
                 {
                     outputFile.Write($"{value} ");
                 }
             }
-            
+
         }
 
         static bool Prime(int n)
@@ -135,10 +136,13 @@ namespace ParProg_Lab3
         {
             Stack<int> enter = new Stack<int>();
             var rand = new Random();
+
             for (var i = 0; i < count; i++)
             {
                 enter.Push(rand.Next());
             }
+            Console.WriteLine("Моя сгенерировал");
+            Console.ReadLine();
             return enter;
         }
 
@@ -148,6 +152,8 @@ namespace ParProg_Lab3
 
             for (var i = 3; i < n; i++) enter.Push(i);
 
+            Console.WriteLine("Моя сгенерировал");
+            Console.ReadLine();
             return enter;
         }
     }
