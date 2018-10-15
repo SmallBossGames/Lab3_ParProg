@@ -15,30 +15,32 @@ namespace ParProg_Lab3
             Stopwatch sw = new Stopwatch();
             while (true)
             {
+                var threadCount = 2;
+                var to = 10;
+                Console.WriteLine("Введите количество потоков");
+                threadCount = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Введите размер последовательности");
+                to = Convert.ToInt32(Console.ReadLine());
                 sw.Reset();
                 Console.WriteLine("Жду кнопку");
                 var check = Console.ReadKey();
-                if (check.Key == ConsoleKey.Enter)
-                {
-                    break;
-                }
+                if (check.Key == ConsoleKey.Enter) { break; }
                 sw.Start();
-                Quest(8);
+                Quest(threadCount, to);
                 sw.Stop();
                 Console.WriteLine($"Я посчиталь c потоками за {sw.ElapsedMilliseconds}");
                 sw.Reset();
                 sw.Start();
-                QuestAsync(8);
+                QuestAsync(threadCount, to);
                 sw.Stop();
                 Console.WriteLine($"Я посчиталь c асинхронкой за {sw.ElapsedMilliseconds}");
             }
         }
 
-
-        static void Quest(int taskCount)
+        static void Quest(int taskCount, int to)
         {
             var tasks = new List<Thread>(taskCount);
-            var inputStack = SeedData(3, 1000000);
+            var inputStack = SeedData(3, to);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -51,14 +53,14 @@ namespace ParProg_Lab3
                 var writeThread = new Thread(() => WriteTask(writeQueue, inputStack, resetEvent, outputFile));
                 writeThread.Start();
 
-                tasks.Add(calcThread); 
-                tasks.Add(writeThread); 
+                tasks.Add(calcThread);
+                tasks.Add(writeThread);
             }
 
-            foreach (var task in tasks) task.Join();  
+            foreach (var task in tasks) task.Join();
         }
 
-        static void QuestAsync(int taskCount)
+        static void QuestAsync(int taskCount, int to)
         {
             var tasks = new List<Task>(taskCount);
             var inputStack = SeedData(3, 1000000);
@@ -112,8 +114,8 @@ namespace ParProg_Lab3
         }
 
         static void WriteTask(
-            Queue<int> writeQueue, 
-            Stack<int> inputStack, 
+            Queue<int> writeQueue,
+            Stack<int> inputStack,
             ManualResetEventSlim resetEvent,
             StreamWriter outputFile)
         {
@@ -158,10 +160,13 @@ namespace ParProg_Lab3
         {
             Stack<int> enter = new Stack<int>();
             var rand = new Random();
+
             for (var i = 0; i < count; i++)
             {
                 enter.Push(rand.Next());
             }
+            Console.WriteLine("Моя сгенерировал");
+            Console.ReadLine();
             return enter;
         }
 
