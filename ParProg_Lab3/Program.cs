@@ -21,21 +21,28 @@ namespace ParProg_Lab3
                 threadCount = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Введите размер последовательности");
                 to = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine("Вычисляю...");
+
                 sw.Reset();
-                Console.WriteLine("Жду кнопку");
-                Console.ReadLine();
-                //var check = Console.ReadKey();
-                //if (check.Key == ConsoleKey.Enter) { break; }
                 sw.Start();
                 Quest(threadCount, to);
                 sw.Stop();
                 Console.WriteLine($"Я посчиталь c потоками за {sw.ElapsedMilliseconds}");
+
+                Console.WriteLine("Нажмите любую кнопку");
+                Console.ReadKey();
+                Console.WriteLine("Вычисляю...");
+
                 sw.Reset();
                 sw.Start();
                 QuestAsync(threadCount, to);
                 sw.Stop();
                 Console.WriteLine($"Я посчиталь c асинхронкой за {sw.ElapsedMilliseconds}");
-                Console.ReadLine();
+
+                Console.WriteLine("Нажмите любую кнопку (Enter для выхода)");
+                var check = Console.ReadKey();
+                if (check.Key == ConsoleKey.Enter) { break; }
             }
         }
 
