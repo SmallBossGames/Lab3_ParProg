@@ -154,7 +154,6 @@ namespace ParProg_Lab3
                 Monitor.Exit(writeQueue);
                 outputFile.Write($"{value} ");
             }
-            
         }
 
         static bool Prime(int n)
@@ -190,6 +189,5 @@ namespace ParProg_Lab3
 
             return enter;
         }
-
     }
 }
