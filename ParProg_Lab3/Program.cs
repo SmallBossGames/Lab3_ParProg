@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ParProg_Lab3
 {
@@ -11,17 +12,33 @@ namespace ParProg_Lab3
     {
         static void Main(string[] args)
         {
-            Quest(2);
-            Console.WriteLine("Я посчиталь");
-            //Console.ReadKey();
-            //Quest(2);
+            Stopwatch sw = new Stopwatch();
+            while (true)
+            {
+                sw.Reset();
+                Console.WriteLine("Жду кнопку");
+                var check = Console.ReadKey();
+                if (check.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+                sw.Start();
+                Quest(8);
+                sw.Stop();
+                Console.WriteLine($"Я посчиталь c потоками за {sw.ElapsedMilliseconds}");
+                sw.Reset();
+                sw.Start();
+                QuestAsync(8);
+                sw.Stop();
+                Console.WriteLine($"Я посчиталь c асинхронкой за {sw.ElapsedMilliseconds}");
+            }
         }
 
 
         static void Quest(int taskCount)
         {
             var tasks = new List<Thread>(taskCount);
-            var inputStack = SeedData(1000000);
+            var inputStack = SeedData(100000000);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -30,11 +47,12 @@ namespace ParProg_Lab3
                 var resetEvent = new ManualResetEventSlim(false);
 
                 var calcThread = new Thread(() => CalcThread(writeQueue, inputStack, resetEvent));
-
+                calcThread.Start();
                 var writeThread = new Thread(() => WriteTask(writeQueue, inputStack, resetEvent, outputFile));
+                writeThread.Start();
 
-                tasks.Add(calcThread); calcThread.Start();
-                tasks.Add(writeThread); writeThread.Start();
+                tasks.Add(calcThread); 
+                tasks.Add(writeThread); 
             }
 
             foreach (var task in tasks) task.Join();  
@@ -43,7 +61,7 @@ namespace ParProg_Lab3
         static void QuestAsync(int taskCount)
         {
             var tasks = new List<Task>(taskCount);
-            var inputStack = SeedData(1000000);
+            var inputStack = SeedData(100000000);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -51,8 +69,13 @@ namespace ParProg_Lab3
                 var outputFile = new StreamWriter($"{i}.txt");
                 var resetEvent = new ManualResetEventSlim(false);
 
-                tasks.Add(new Task(() => CalcThread(writeQueue, inputStack, resetEvent)));
-                tasks.Add(new Task(() => WriteTask(writeQueue, inputStack, resetEvent, outputFile)));
+                var calcTask = new Task(() => CalcThread(writeQueue, inputStack, resetEvent));
+                calcTask.Start();
+                var writeTask = new Task(() => WriteTask(writeQueue, inputStack, resetEvent, outputFile));
+                writeTask.Start();
+
+                tasks.Add(calcTask);
+                tasks.Add(writeTask);
             }
 
             foreach (var task in tasks) task.Wait();
