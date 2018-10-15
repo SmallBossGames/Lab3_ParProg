@@ -38,7 +38,7 @@ namespace ParProg_Lab3
         static void Quest(int taskCount)
         {
             var tasks = new List<Thread>(taskCount);
-            var inputStack = SeedData(100000000);
+            var inputStack = SeedData(10000000);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -61,7 +61,7 @@ namespace ParProg_Lab3
         static void QuestAsync(int taskCount)
         {
             var tasks = new List<Task>(taskCount);
-            var inputStack = SeedData(100000000);
+            var inputStack = SeedData(10000000);
 
             for (int i = 0; i < taskCount; i++)
             {
@@ -101,10 +101,13 @@ namespace ParProg_Lab3
 
                 Monitor.Exit(inputStack);
 
-                Monitor.Enter(writeQueue);
-                writeQueue.Enqueue(value);
-                resetEvent.Set();
-                Monitor.Exit(writeQueue);
+                if (Prime(value))
+                {
+                    Monitor.Enter(writeQueue);
+                    writeQueue.Enqueue(value);
+                    resetEvent.Set();
+                    Monitor.Exit(writeQueue);
+                }
             }
         }
 
@@ -138,11 +141,7 @@ namespace ParProg_Lab3
 
                 var value = writeQueue.Dequeue();
                 Monitor.Exit(writeQueue);
-
-                if(Prime(value))
-                {
-                    outputFile.Write($"{value} ");
-                }
+                outputFile.Write($"{value} ");
             }
             
         }
